@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
   subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"]
 });
 
 export const metadata: Metadata = {
@@ -20,10 +26,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="es"
+      className={cn("h-full", "antialiased", poppins.variable, playfair.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col items-center bg-background ">
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
     </html>
   );
 }
