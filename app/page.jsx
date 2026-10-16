@@ -1,5 +1,5 @@
 "use client";
-import { H01, H02, H03, H04, H07, H10 } from "./hallazgo/page.jsx";
+import { H01, H02, H03, H04, H07, H10 } from "@/components/hallazgos";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useState, useRef } from 'react';
