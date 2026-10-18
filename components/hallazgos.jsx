@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
-import { Field, FieldLabel } from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Search, Image, House, Send, Bell, CircleHelp, ShoppingCart, RotateCcw, FileText, Trash, Popcorn, SearchIcon, ArrowRight, ChevronRight, Sparkles } from "lucide-react"
@@ -75,52 +75,58 @@ export function H01() {
 
 
     return (
-        <div className="flex flex-col justify-center items-center h-150 w-full shadow rounded-xl overflow-hidden">
+        <div className="flex flex-col justify-center items-center md:h-150 w-full shadow rounded-xl overflow-hidden max-w-6xl">
             <div className="bg-[#ffe900] w-full h-20 justify-center items-center flex flex-col rounded-t-2xl">
                 <div className="flex flex-col relative">
                     <form
-                        className="w-100"
+                        suppressHydrationWarning
+                        className="w-full"
                         action=""
                         onSubmit={(e) => {
                             e.preventDefault();
                             setIsSearching(true);
                         }}>
 
-                        <Field>
-                            <ButtonGroup className={`${isSearching ? "opacity-80 pointer-events-none" : "opacity-100"}`}>
-                                <Input className="h-10 rounded bg-background border-0"
-                                    id="input-button-group"
-                                    placeholder="Buscar productos, marcas y más..."
-                                    value={userInput}
-                                    onChange={(e) => setUserInput(e.target.value)}
-                                    onFocus={() => setFocusInput(true)}
-                                    onBlur={() => setFocusInput(false)}
-                                />
-                                <Button
-                                    className="h-10 rounded bg-background"
-                                    variant="ghost"
-                                    type="submit"
-                                    onClick={() => {
-                                        setIsSearching(true);
+                        <div className="w-80 md:w-150">
+                            <Field>
+                                <ButtonGroup className={`${isSearching ? "opacity-80 pointer-events-none" : "opacity-100"}`}>
+                                    <Input suppressHydrationWarning className="h-10 rounded bg-background border-0 w-full text-xs!"
+                                        id="input-button-group"
+                                        placeholder="Buscar productos, marcas y más..."
+                                        value={userInput}
+                                        onChange={(e) => setUserInput(e.target.value)}
+                                        onFocus={() => setFocusInput(true)}
+                                        onBlur={() => setFocusInput(false)}
+                                        autoComplete="off"
+                                    />
+                                    <Button
+                                        className="h-10 w-20 rounded bg-background"
+                                        variant="ghost"
+                                        type="submit"
+                                        onClick={() => {
+                                            setIsSearching(true);
 
-                                    }}
-                                >
-                                    {isSearching ? <Spinner /> : <Search />}
-                                </Button>
-                            </ButtonGroup>
-                        </Field>
+                                        }}
+                                    >
+                                        {isSearching ? <Spinner /> : <Search />}
+                                    </Button>
+                                </ButtonGroup>
+                            </Field>
+                        </div>
                     </form>
 
-                    <div className={`absolute top-full bg-white h-50 w-100 z-100 transition-all opacity-0 rounded-b shadow -translate-y-10 ${focusInput ? "opacity-100 translate-y-0" : "pointer-events-none"}`}>
-
+                    <div className={`absolute top-full bg-white rounded-b-2xl h-50 p-5 gap-5 flex flex-col w-full transition-all opacity-0 shadow -translate-y-10 ${focusInput ? "opacity-100 translate-y-0 z-100" : "pointer-events-none z-0"}`}>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                            <span key={index} className="h-3 w-full bg-zinc-200 border rounded-full"></span>
+                        ))}
                     </div>
                 </div>
             </div>
 
-            <div className="w-full h-full p-5 flex gap-5 relative overflow-hidden bg-[#fdfdfd">
-                <div className={`barloader absolute h-2 bg-[#0258a7] left-0 top-0`}></div>
+            <div className="w-full h-90 md:h-150 p-5 flex gap-5 relative overflow-hidden bg-[#fdfdfd">
+                <div className={`barloader absolute h-2 bg-[#0258a7] left-0 top-0`} />
 
-                <div className="bg-[#f6f6f6] h-full w-40 rounded flex flex-col p-3 gap-5 items-center" />
+                <div className="hidden md:flex bg-[#f6f6f6] h-full w-50 rounded flex-col p-3 gap-5 items-center" />
                 <div className="w-full bg-[#f6f6f6] rounded">
                     {isHomePage ? (
                         <div className="w-full h-full flex flex-col">
@@ -128,20 +134,23 @@ export function H01() {
 
                             <div className="grid grid-cols-3 grid-rows-1 h-full w-full gap-5 p-5">
                                 {Array.from({ length: 3 }).map((_, index) => (
-                                    <div key={`home-skeleton-${index}`} className="bg-zinc-200 w-full h-full" />
+                                    <div
+                                        key={`home-skeleton-${index}`}
+                                        className="bg-zinc-200 w-full h-full"
+                                    />
                                 ))}
                             </div>
                         </div>
                     ) : (
                         <div className="grid grid-cols-4 grid-rows-2 gap-5 h-full w-full rounded p-5">
                             {isSearching && Array.from({ length: 8 }).map((_, index) => (
-                                <div key={`skeleton-${index}`} className="w-full h-full">
+                                <div key={`skeleton-${index}`} className={`w-full h-full ${index >= 4 ? "hidden md:block" : "col-span-2 md:col-auto"}`}>
                                     <Skeleton className="h-full w-full rounded bg-zinc-200" />
                                 </div>
                             ))}
 
                             {isSearched && Array.from({ length: 8 }).map((_, index) => (
-                                <div key={`result-${index}`} className="target-product w-full h-full rounded">
+                                <div key={`result-${index}`} className={`target-product w-full h-full rounded ${index >= 4 ? "hidden md:block" : "col-span-2 md:col-auto"}`}>
                                     <div className="h-full w-full flex flex-col justify-center items-center p-1 bg-white">
                                         <div className="flex-2 h-full w-full bg-[#f5f5f5] justify-center items-center flex">
                                             <Image size={30} strokeWidth={1} className="text-zinc-300" />
@@ -169,24 +178,24 @@ export function H01() {
 
 export function H02() {
     const items = [
-        { id: 1, name: "Resumen", icon: <House size={27} strokeWidth={1.7} />, description: "Muestra un resumen de las actividades del vendedor." },
-        { id: 2, name: "Publicar", icon: <Send size={27} strokeWidth={1.7} />, description: "Permite publicar nuevos productos." },
-        { id: 3, name: "Novedades", icon: <Bell size={27} strokeWidth={1.7} />, description: "Muestra las últimas novedades del sistema." },
-        { id: 4, name: "Preguntas", icon: <CircleHelp size={27} strokeWidth={1.7} />, description: "Muestra las preguntas frecuentes del sistema." },
-        { id: 5, name: "Ventas", icon: <ShoppingCart size={27} strokeWidth={1.7} />, description: "Muestra el historial de ventas del vendedor." },
-        { id: 6, name: "Posventa", icon: <RotateCcw size={27} strokeWidth={1.7} />, description: "Muestra la información sobre posventa." },
-        { id: 7, name: "Publicaciones", icon: <FileText size={27} strokeWidth={1.7} />, description: "Permite generar informes sobre las actividades del vendedor." },
+        { id: 1, name: "Resumen", icon: <House size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Muestra un resumen de las actividades del vendedor." },
+        { id: 2, name: "Publicar", icon: <Send size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Permite publicar nuevos productos." },
+        { id: 3, name: "Novedades", icon: <Bell size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Muestra las últimas novedades del sistema." },
+        { id: 4, name: "Preguntas", icon: <CircleHelp size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Muestra las preguntas frecuentes del sistema." },
+        { id: 5, name: "Ventas", icon: <ShoppingCart size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Muestra el historial de ventas del vendedor." },
+        { id: 6, name: "Posventa", icon: <RotateCcw size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Muestra la información sobre posventa." },
+        { id: 7, name: "Publicaciones", icon: <FileText size={27} className="size-5 md:size-6" strokeWidth={1.7} />, description: "Permite generar informes sobre las actividades del vendedor." },
     ];
 
     return (
-        <div className="flex flex-col bg-[#fdfdfd] h-full w-full rounded-xl overflow-hidden shadow">
-            <div className="bg-white flex flex-col h-full w-1/2 p-2 border-r">
+        <div className="flex flex-col bg-[#fdfdfd] h-full w-full max-w-200 rounded-xl overflow-hidden shadow">
+            <div className="bg-white flex flex-col h-full md:w-1/2 w-2/3 p-2 border-r">
                 {items.map((item) => (
                     <Tooltip key={item.id}>
                         <TooltipTrigger>
                             <div key={item.id} className="flex p-4 items-center justify-start hover:bg-[#fafafa] cursor-pointer rounded-md gap-6">
-                                <span className="flex">{item.icon}</span>
-                                <span className="text-[#33333] text-lg tracking-tight">{item.name}</span>
+                                {item.icon}
+                                <span className="text-[#33333] text-[clamp(1rem,1vw,1.5rem)] tracking-tight">{item.name}</span>
                             </div>
                         </TooltipTrigger>
                         <TooltipContent side="right" className="min-h-13 border">
@@ -332,39 +341,33 @@ export function H03() {
         }
 
         return (
-            <div className="relative">
+            <div className="relative overflow-hidden w-90 md:w-200">
                 <div
                     ref={cardRef}
-                    className="grid grid-cols-[130px_1fr_100px] w-full p-3 gap-3 border rounded-md bg-white relative mb-3"
+                    className="grid grid-cols-[1fr_1fr_1fr] md:grid-cols-[1fr_4fr_1fr] w-full p-3 gap-3 border rounded-md bg-white relative mb-3"
                 >
                     <div className="flex flex-col h-full text-zinc-300 w-full bg-zinc-100 rounded-md items-center justify-center">
                         <Image size={50} strokeWidth={1} />
                     </div>
-                    <div>
-                        <div className="flex flex-col gap-3 justify-center h-full items-start">
-                            <span className="bg-[#c8deff88] w-40 h-5 rounded-full"></span>
-                            <span className="bg-zinc-100 w-70 h-3 rounded-full"></span>
-                            <span className="bg-[#96c0ff46] w-33 h-3 rounded-full"></span>
-                            <div className="flex gap-2 items-center">
-                                <span className="bg-zinc-200 opacity-40 w-30 h-7 rounded-full flex items-center justify-around text-zinc-400">
-                                    <span>-</span>
-                                    <span>0</span>
-                                    <span>+</span>
-                                </span>
-                                <button
-                                    data-delete
-                                    className="rounded-full w-20 h-7 bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center transition-colors"
-                                    onClick={deleteCard}
-                                >
-                                    <Trash size={16} />
-                                </button>
-                            </div>
+                    <div className="flex flex-col gap-3 justify-center h-full w-full items-start">
+                        <span className="bg-[#c8deff88] max-w-40 w-full h-5 rounded-full"></span>
+                        <span className="bg-zinc-100 max-w-70 w-full h-3 rounded-full"></span>
+                        <span className="bg-[#96c0ff46] max-w-33 w-full h-3 rounded-full"></span>
+                        <div className="flex gap-2 items-center w-full">
+                            <span className="bg-zinc-200 opacity-40 max-w-30 w-full h-7 rounded-full flex items-center justify-around text-zinc-400" />
+                            <button
+                                data-delete
+                                className="rounded-full w-20 h-7 bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center transition-colors"
+                                onClick={deleteCard}
+                            >
+                                <Trash size={16} />
+                            </button>
                         </div>
                     </div>
                     <div className="w-full flex flex-col gap-2 h-full">
                         <div className="flex gap-1 items-center">
-                            <span className="bg-zinc-200 w-20 h-4 rounded-full"></span>
-                            <span className="bg-[#00a65038] w-15 h-4 rounded-full"></span>
+                            <span className="bg-zinc-200 max-w-20 w-full h-4 rounded-full"></span>
+                            <span className="bg-[#00a65038] max-w-15 w-full+ h-4 rounded-full"></span>
                         </div>
                         <span className="bg-zinc-300 w-full h-5 rounded-full"></span>
                     </div>
@@ -377,15 +380,15 @@ export function H03() {
 
 export function H04() {
     return (
-        <div className="flex flex-col text-start gap-5 p-5">
+        <div className="flex flex-col text-start gap-5 p-5 overflow-hidden">
             <h1>Un solo icono permite al usuario persistir la consitencia de todas las plataformas de Mercado Libre y no confundirse</h1>
-            <div className="border grid grid-cols-[100px_1fr_150px] w-full h-20 items-center text-center rounded-full text-[#333333] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
+            <div className="border grid grid-cols-[70px_1fr_100px] md:grid-cols-[100px_1fr_150px] w-full h-15 md:h-20 items-center text-center rounded-full text-[#333333] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
                 <div className="flex h-full w-full items-center justify-center">
-                    <Popcorn size={30} strokeWidth={1.5} />
+                    <Popcorn size={30} strokeWidth={1.5} className="size-6 md:size-7" />
                 </div>
-                <span className="text-xl font-medium text-start tracking-tight">Mercado Play</span>
+                <span className="text-[clamp(1rem,1vw,1.25rem)] font-medium text-start tracking-tight">Mercado Play</span>
                 <div className="flex h-full w-full items-center justify-center">
-                    <span className="w-[calc(100%-2rem)] py-1 rounded-full text-white bg-[#01a74a] uppercase">gratis</span>
+                    <span className="w-[calc(100%-2rem)] py-1 rounded-full text-white bg-[#01a74a] uppercase text-[clamp(.8rem,1vw,1.25rem)]">gratis</span>
                 </div>
             </div>
         </div>
@@ -519,8 +522,8 @@ export function H10() {
 
 
     return (
-        <div className="flex flex-col items-center max-h-110">
-            <div className="flex flex-col bg-white max-w-150 w-full p-5 rounded-2xl gap-5 shadow-md">
+        <div className="flex flex-col items-center max-h-110 w-full">
+            <div className="flex flex-col bg-white max-w-170 w-full p-5 rounded-2xl gap-5 shadow-2xl">
                 <h1 className="text-2xl font-medium text-center">¿Con qué te ayudamos?</h1>
                 <Separator />
                 <div className="flex flex-col w-full justify-center items-center overflow-hidden gap-2">

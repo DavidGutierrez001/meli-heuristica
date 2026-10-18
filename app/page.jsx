@@ -185,7 +185,6 @@ export default function Home() {
             start: "top top",
             end: "center top",
             scrub: true,
-            markers: true,
           },
         }
       );
@@ -197,24 +196,25 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col items-center justify-center pb-20 pt-20 pe-20 ps-35 w-full max-w-350 bg-background">
+    <div className="flex flex-col items-center justify-center px-5 w-full max-w-350 bg-background">
       <Modal saveMedia={saveMedia} onClose={() => setSaveMedia(null)} />
 
       <div className="w-full h-full flex flex-col gap-20">
-        <div ref={frontRef} className="h-[calc(100svh-10rem)] flex flex-col items-center justify-center gap-10 relative">
+        <div ref={frontRef} className="h-dvh flex flex-col items-center justify-center gap-20 relative">
           <div className="flex flex-col items-center gap-10">
-            <h1 className="text-6xl font-semibold tracking-tighter text-black/80">Heurística vulnerada en</h1>
-            <Image src="/logoml.svg" alt="Logo" width={500} height={100} />
+            <h1 className="text-[clamp(2.7rem,8vw,5rem)] font-semibold tracking-tighter md:absolute md:top-20 md:left-0 md:text-start text-center text-black/80 leading-none">Heurística <br /> vulnerada en</h1>
+            <Image src="/logoml.svg" alt="Logo" width={500} height={100} className="h-[clamp(4.5rem,15vw,8rem)]" />
           </div>
-          <div className="text-2xl text-center font-medium tracking-tighter gap-2 flex flex-col absolute right-0 bottom-0">
+          <div className="text-2xl text-center font-medium tracking-tighter gap-2 flex flex-col md:absolute md:right-0 md:bottom-20">
             <span className="text-xl text-[#333333]">Presentado por:</span>
             <h2>Jose David Nuñez Gutierrez</h2>
             <h2>John Alexander Peña Bedoya</h2>
           </div>
-          <span className="h-15 w-15 rounded-full bg-amber-300 absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center animate-bounce text-[#2d3277] shadow-xl">
+          <span className="h-15 w-15 rounded-full bg-amber-300 absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center animate-bounce text-[#2d3277] shadow-xl">
             <ChevronDown size={40} />
           </span>
         </div>
+
         <main className="flex flex-col gap-10 relative">
           {infoproblems.map((problem) => (
             <div className="relative" key={problem.id}>
@@ -223,8 +223,8 @@ export default function Home() {
               </div>
 
               {problem.tieneHallazgo ? (
-                <div className="grid grid-cols-7 grid-rows-[auto_auto_auto] w-full h-auto gap-5 rounded-xl">
-                  <section className="col-start-1 col-span-3 row-start-1 flex flex-col items-center justify-center gap-5">
+                <div className="flex flex-col md:grid grid-cols-6 md:grid-cols-7 grid-rows-[auto_auto_auto] w-full h-auto gap-10 rounded-xl">
+                  <section className="col-start-1 md:col-span-3 row-start-1 flex flex-col items-center justify-center gap-5">
                     <h2 className="font-semibold text-4xl text-[#333333] text-start leading-none">{problem.title}</h2>
                     <p className="text-lg">{problem.description}</p>
                   </section>
@@ -254,7 +254,7 @@ export default function Home() {
                   <header className="col-start-1 col-span-7 row-start-3 row-span-1 flex items-center justify-center">
                     <h2 className="text-2xl font-semibold text-[#333333]">Propuesta heurística</h2>
                   </header>
-                  <section className="col-start-1 row-start-4 col-span-7 p-10 bg-[#fafafa] inset-shadow-sm rounded">
+                  <section className="col-start-1 row-start-4 col-span-7 place-content-center items-center flex flex-col">
                     {problem.solucion}
                   </section>
                 </div>
